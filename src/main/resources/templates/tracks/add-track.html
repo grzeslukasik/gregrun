@@ -44,8 +44,8 @@
                 <label for="latitude">Latitude:</label>
                 <input type="text" name="checkpointsList[0].latitude" required>
             </div>
-
         </div>
+
 
         <div>
             <button class="btn btn-outline-success" type="button" onclick="addCheckpoint()">Add checkpoint</button>
@@ -73,28 +73,33 @@
         const checkpointDiv = document.createElement("div");
         checkpointDiv.classList.add("checkpoint");
 
-        const nameLabel = document.createElement("label");
-        nameLabel.setAttribute("for", "longitude");
-        nameLabel.textContent = "Longitude:";
+        const longitudeLabel = document.createElement("label");
+        longitudeLabel.setAttribute("for", "longitude");
+        longitudeLabel.textContent = "Longitude:";
 
-        const nameInput = document.createElement("input");
-        nameInput.setAttribute("type", "text");
-        nameInput.setAttribute("name", "checkpointsList[" + checkpointIndex + "].longitude");
-        nameInput.setAttribute("required", true);
+        const longitudeInput = document.createElement("input");
+        longitudeInput.setAttribute("type", "text");
+        longitudeInput.setAttribute("name", "checkpointsList[" + checkpointIndex + "].longitude");
+        longitudeInput.setAttribute("required", true);
 
-        const colourLabel = document.createElement("label");
-        colourLabel.setAttribute("for", "latitude");
-        colourLabel.textContent = "Latitude:";
 
-        const colourInput = document.createElement("input");
-        colourInput.setAttribute("type", "text");
-        colourInput.setAttribute("name", "checkpointsList[" + checkpointIndex + "].latitude");
-        colourInput.setAttribute("required", true);
 
-        checkpointDiv.appendChild(nameLabel);
-        checkpointDiv.appendChild(nameInput);
-        checkpointDiv.appendChild(colourLabel);
-        checkpointDiv.appendChild(colourInput);
+        const latitudeLabel = document.createElement("label");
+        latitudeLabel.setAttribute("for", "latitude");
+        latitudeLabel.textContent = "Latitude:";
+
+        const latitudeInput = document.createElement("input");
+        latitudeInput.setAttribute("type", "text");
+        latitudeInput.setAttribute("name", "checkpointsList[" + checkpointIndex + "].latitude");
+        latitudeInput.setAttribute("required", true);
+
+        checkpointDiv.appendChild(longitudeLabel);
+        checkpointDiv.appendChild(longitudeInput);
+
+        checkpointDiv.appendChild(document.createElement("br"));
+
+        checkpointDiv.appendChild(latitudeLabel);
+        checkpointDiv.appendChild(latitudeInput);
 
         checkpointsContainer.appendChild(checkpointDiv);
 

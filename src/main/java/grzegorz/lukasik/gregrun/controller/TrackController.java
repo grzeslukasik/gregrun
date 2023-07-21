@@ -50,7 +50,7 @@ public class TrackController {
         return "redirect:/tracks";
     }
 
-    @PostMapping("/tracks/{id}/checkpoints")
+    @GetMapping("/tracks/{id}/checkpoints")
     public String getCheckpoints(@PathVariable("id") long id, Model model) {
         Track track = trackService.findTrackById(id);
 

@@ -21,10 +21,10 @@ public class TrackService{
     }
 
     public Track findTrackById(long id){
-        Optional<Track> optionalTask = tracks.stream()
-                .filter(task -> task.getId() == id)
+        Optional<Track> optionalTrack = tracks.stream()
+                .filter(track -> track.getId() == id)
                 .findFirst();
-        return optionalTask.orElseThrow(() -> new RuntimeException("Track with given id: '%s' not found"));
+        return optionalTrack.orElseThrow(() -> new RuntimeException("Track with given id: '%s' not found"));
     }
     public long createRandomId() {
         return new Random().nextLong(1000);
