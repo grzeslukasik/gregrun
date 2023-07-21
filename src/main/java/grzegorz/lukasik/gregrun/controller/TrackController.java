@@ -4,10 +4,13 @@ import grzegorz.lukasik.gregrun.model.Track;
 import grzegorz.lukasik.gregrun.service.TrackService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,16 @@ public class TrackController {
     public String schowCreateForm(Model model){
         model.addAttribute("track", new Track());
         return "tracks/add-track";
+    }
+
+    @PostMapping("/tracks")
+    public String createTrack(@Valid @ModelAttribute Track track, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "tracks/add-track";
+        }
+        track.setId(trackService.createRandomId());
+        trackService.addTask(track);
+        return "redirect:/tracks";
     }
 
     @PostMapping("/tracks/{id}/checkpoints")

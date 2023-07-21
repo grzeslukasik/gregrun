@@ -17,6 +17,89 @@
     </script>
 </head>
 <body>
+<div style="width: 500px" class="container text-center">
+    <h1 style="font-family: 'Times New Roman', Times, serif">New track</h1>
+    <form th:action="@{/tracks}" th:object="${track}" method="post">
 
+        <div class="form-group">
+            <label for="trackName">Track name:</label>
+            <input type="text" class="form-control" id="trackName" th:field="*{trackName}"/>
+        </div>
+
+        <div class="form-group">
+            <label for="trackDescription">Description:</label>
+            <textarea class="form-control" placeholder="..." id="trackDescription"
+                      style="height: 200px" th:field="*{trackDescription}"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="trackDate">Date: </label>
+            <input type="date" class="form-control" id="trackDateDate" th:field="*{trackDate}"/>
+        </div>
+
+        <div id="checkpointsContainer">
+            <div class="checkpoint">
+                <label for="longitude">Longitude:</label>
+                <input type="text" name="checkpointsList[0].longitude" required>
+                <label for="latitude">Latitude:</label>
+                <input type="text" name="checkpointsList[0].latitude" required>
+            </div>
+
+        </div>
+
+        <div>
+            <button class="btn btn-outline-success" type="button" onclick="addCheckpoint()">Add checkpoint</button>
+        </div>
+
+        <div>
+        <button class="btn btn-dark" type="submit">Add task</button>
+        </div>
+        <ul th:if="${#fields.hasErrors('*')}">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+        </ul>
+
+    </form>
+
+    <a href="/tracks" class="btn btn-primary"><i class="bi bi-arrow-double-left"></i>Back to track list</a>
+
+</div>
+
+<script th:inline="javascript">
+    let checkpointIndex = 1;
+
+    function addCheckpoint() {
+        const checkpointsContainer = document.getElementById("checkpointsContainer");
+
+        const checkpointDiv = document.createElement("div");
+        checkpointDiv.classList.add("checkpoint");
+
+        const nameLabel = document.createElement("label");
+        nameLabel.setAttribute("for", "longitude");
+        nameLabel.textContent = "Longitude:";
+
+        const nameInput = document.createElement("input");
+        nameInput.setAttribute("type", "text");
+        nameInput.setAttribute("name", "checkpointsList[" + checkpointIndex + "].longitude");
+        nameInput.setAttribute("required", true);
+
+        const colourLabel = document.createElement("label");
+        colourLabel.setAttribute("for", "latitude");
+        colourLabel.textContent = "Latitude:";
+
+        const colourInput = document.createElement("input");
+        colourInput.setAttribute("type", "text");
+        colourInput.setAttribute("name", "checkpointsList[" + checkpointIndex + "].latitude");
+        colourInput.setAttribute("required", true);
+
+        checkpointDiv.appendChild(nameLabel);
+        checkpointDiv.appendChild(nameInput);
+        checkpointDiv.appendChild(colourLabel);
+        checkpointDiv.appendChild(colourInput);
+
+        checkpointsContainer.appendChild(checkpointDiv);
+
+        checkpointIndex++;
+    }
+</script>
 </body>
 </html>
