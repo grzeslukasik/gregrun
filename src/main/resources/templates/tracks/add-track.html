@@ -135,12 +135,7 @@
             $('<span></span>').addClass('popup-span').text('Latitude: ' + latlng.lat)
         )
         popupContents.append('<br>');
-        let trashButton = $('<button><i class="fas fa-trash" />Remove</button>')
-            .on('click', event => {
-                marker.remove()
-            })
 
-        popupContents.append(trashButton)
         return popupContents[0]
     }
 
