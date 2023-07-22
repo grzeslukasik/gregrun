@@ -63,14 +63,15 @@
             </div>
         </div>
 
-        <div id="map" class="container"></div>
+
 
         <div>
             <button class="btn btn-outline-success" type="button" onclick="addCheckpoint()">Add checkpoint</button>
         </div>
-        <br>
+        <div id="map" class="container"></div>
+
         <div>
-            <button class="btn btn-dark" type="submit">Add task</button>
+            <button class="btn btn-dark" type="submit">Add track</button>
         </div>
         <ul th:if="${#fields.hasErrors('*')}">
             <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
