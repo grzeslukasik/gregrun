@@ -1,16 +1,24 @@
 package grzegorz.lukasik.gregrun.service;
 
 import grzegorz.lukasik.gregrun.model.Track;
+import grzegorz.lukasik.gregrun.repository.TrackRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 @Service
-public class TrackService{
+@Transactional
+public class TrackService {
+    private final TrackRepository trackRepository;
     private List<Track> tracks = new ArrayList<>();
+
+    public TrackService(TrackRepository trackRepository) {
+        this.trackRepository = trackRepository;
+    }
 
     public List<Track> getAll() {
         return tracks;
