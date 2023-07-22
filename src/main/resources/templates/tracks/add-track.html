@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add track</title>
-
+    <style>#map { height: 400px; }</style>
     <link   href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
@@ -15,6 +15,15 @@
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
             crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <div style="width: 500px" class="container text-center">
@@ -44,9 +53,17 @@
                 <br>
                 <label for="latitude">Start latitude:</label>
                 <input type="text" name="checkpointsList[0].latitude" required>
+
+                <label for="longitude">Checkpoint 1 longitude:</label>
+                <input type="text" name="checkpointsList[1].longitude" required>
+                <br>
+                <label for="latitude">Checkpoint 1 longitude:</label>
+                <input type="text" name="checkpointsList[1].latitude" required>
+
             </div>
         </div>
 
+        <div id="map" class="container"></div>
 
         <div>
             <button class="btn btn-outline-success" type="button" onclick="addCheckpoint()">Add checkpoint</button>
@@ -66,7 +83,7 @@
 </div>
 
 <script th:inline="javascript">
-    let checkpointIndex = 1;
+    let checkpointIndex = 2;
 
     function addCheckpoint() {
         const checkpointsContainer = document.getElementById("checkpointsContainer");
@@ -76,7 +93,7 @@
 
         const longitudeLabel = document.createElement("label");
         longitudeLabel.setAttribute("for", "longitude");
-        longitudeLabel.textContent = "Checkpoint " +checkpointIndex + " longitude:";
+        longitudeLabel.textContent = "Checkpoint " + checkpointIndex + " longitude:";
 
         const longitudeInput = document.createElement("input");
         longitudeInput.setAttribute("type", "text");
@@ -84,10 +101,9 @@
         longitudeInput.setAttribute("required", true);
 
 
-
         const latitudeLabel = document.createElement("label");
         latitudeLabel.setAttribute("for", "latitude");
-        latitudeLabel.textContent = "Checkpoint " + checkpointIndex +" latitude:";
+        latitudeLabel.textContent = "Checkpoint " + checkpointIndex + " latitude:";
 
         const latitudeInput = document.createElement("input");
         latitudeInput.setAttribute("type", "text");
@@ -106,6 +122,52 @@
 
         checkpointIndex++;
     }
+</script>
+
+<script>
+    function createPopupContents(marker, latlng) {
+        let popupContents = $('<div></div>')
+        popupContents.append(
+            $('<span></span>').addClass('popup-span').text('Longitude: ' + latlng.lng)
+        )
+        popupContents.append('<br>');
+        popupContents.append(
+            $('<span></span>').addClass('popup-span').text('Latitude: ' + latlng.lat)
+        )
+        popupContents.append('<br>');
+        let trashButton = $('<button><i class="fas fa-trash" />Remove</button>')
+            .on('click', event => {
+                marker.remove()
+            })
+
+        popupContents.append(trashButton)
+        return popupContents[0]
+    }
+
+    var options = {center: [54.349, 18.651], zoom: 12}
+    var map = L.map('map', options);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 20,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    let popupOpen = null
+    map.on('preclick', mapEvent => {
+        popupOpen = false
+        map.eachLayer(layer => {
+            if (layer.getPopup() && layer.getPopup().isOpen()) {
+                popupOpen = true
+            }
+        })
+    })
+
+    map.on('click', mapEvent => {
+        if (!popupOpen) {
+            let marker = L.marker(mapEvent.latlng)
+            marker.addTo(map).bindPopup(createPopupContents(marker, mapEvent.latlng));
+        }
+    })
 </script>
 <footer th:insert="fragments/footer" :: footer></footer>
 </body>
