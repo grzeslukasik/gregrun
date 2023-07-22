@@ -34,6 +34,9 @@
         <strong>Latitude:</strong> <span th:text="${checkpoint.latitude}"></span><br><br>
     </li>
 </ul>
+
+<div id="distance">Total distance: </div>
+
 <div id="map"></div>
 
 <a href="/tracks">Back to track list</a>
@@ -54,9 +57,21 @@
         var longitude = point.longitude;
         latLngs.push([latitude, longitude]);
         var marker = L.marker([latitude, longitude]).addTo(map);
-        marker.bindPopup("Latitude: " + latitude + "<br>Longitude: " + longitude).openPopup();
     });
     var polyline = L.polyline(latLngs, { color: 'blue' }).addTo(map);
+
+    function calculateTotalDistance(latLngs) {
+        var totalDistance = 0;
+        for (var i = 0; i < latLngs.length - 1; i++) {
+            totalDistance += L.latLng(latLngs[i]).distanceTo(L.latLng(latLngs[i + 1]));
+        }
+        return totalDistance / 1000;
+    }
+
+    var totalDistance = calculateTotalDistance(latLngs);
+    var distanceElement = document.getElementById("distance");
+    distanceElement.textContent = "Total distance: " + totalDistance.toFixed(2) + " km";
+
 </script>
 
 <footer th:insert="fragments/footer" :: footer></footer>
