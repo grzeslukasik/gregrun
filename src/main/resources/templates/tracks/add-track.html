@@ -39,9 +39,10 @@
 
         <div id="checkpointsContainer">
             <div class="checkpoint">
-                <label for="longitude">Longitude:</label>
+                <label for="longitude">Start longitude:</label>
                 <input type="text" name="checkpointsList[0].longitude" required>
-                <label for="latitude">Latitude:</label>
+                <br>
+                <label for="latitude">Start latitude:</label>
                 <input type="text" name="checkpointsList[0].latitude" required>
             </div>
         </div>
@@ -50,9 +51,9 @@
         <div>
             <button class="btn btn-outline-success" type="button" onclick="addCheckpoint()">Add checkpoint</button>
         </div>
-
+        <br>
         <div>
-        <button class="btn btn-dark" type="submit">Add task</button>
+            <button class="btn btn-dark" type="submit">Add task</button>
         </div>
         <ul th:if="${#fields.hasErrors('*')}">
             <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
@@ -75,7 +76,7 @@
 
         const longitudeLabel = document.createElement("label");
         longitudeLabel.setAttribute("for", "longitude");
-        longitudeLabel.textContent = "Longitude:";
+        longitudeLabel.textContent = "Checkpoint " +checkpointIndex + " longitude:";
 
         const longitudeInput = document.createElement("input");
         longitudeInput.setAttribute("type", "text");
@@ -86,7 +87,7 @@
 
         const latitudeLabel = document.createElement("label");
         latitudeLabel.setAttribute("for", "latitude");
-        latitudeLabel.textContent = "Latitude:";
+        latitudeLabel.textContent = "Checkpoint " + checkpointIndex +" latitude:";
 
         const latitudeInput = document.createElement("input");
         latitudeInput.setAttribute("type", "text");
