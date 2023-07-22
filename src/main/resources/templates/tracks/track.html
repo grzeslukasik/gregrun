@@ -18,6 +18,26 @@
     </script>
 </head>
 <body>
+<div th:if="${trackAdditionSuccess} !=null">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="oi oi-check"></i>
+        <span>
+          <a th:text="${trackAdditionSuccess}"></a>
+         </span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+</div>
+<div th:if="${trackDeletionSuccess} != null">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="oi oi-check"></i>
+        <span>
+          <a th:text="${trackDeletionSuccess}"></a>
+         </span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+</div>
 <table class="table">
     <thead>
     <tr>

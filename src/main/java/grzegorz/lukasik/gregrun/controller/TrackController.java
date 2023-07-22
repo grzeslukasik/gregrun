@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -41,12 +42,13 @@ public class TrackController {
     }
 
     @PostMapping("/tracks")
-    public String createTrack(@Valid @ModelAttribute Track track, BindingResult bindingResult) {
+    public String createTrack(@Valid @ModelAttribute Track track, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "tracks/add-track";
         }
         track.setId(trackService.createRandomId());
         trackService.addTrack(track);
+        redirectAttributes.addFlashAttribute("trackAdditionSuccess", "Track has been successfully added");
         return "redirect:/tracks";
     }
 
@@ -63,8 +65,9 @@ public class TrackController {
     }
 
     @GetMapping("tracks/delete/{trackId}")
-    public String deleteTrack(@PathVariable long trackId) {
+    public String deleteTrack(@PathVariable long trackId, RedirectAttributes redirectAttributes) {
         trackService.removeTrackById(trackId);
+        redirectAttributes.addFlashAttribute("trackDeletionSuccess", "Track has been successfully deleted");
         return "redirect:/tracks";
     }
 }
