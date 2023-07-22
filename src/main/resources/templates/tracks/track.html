@@ -36,7 +36,10 @@
     <td th:text="${track.trackDate}"></td>
     <td>
         <a th:href="@{/tracks/{id}/checkpoints(id=${track.id})}" class="btn btn-primary">
-            Checkpoints
+            Show details
+        </a>
+        <a th:href="@{/tracks/delete/{id}(id=${track.id})}" class="btn btn-danger">
+            Delete
         </a>
     </td>
 </tr>

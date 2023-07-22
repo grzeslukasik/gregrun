@@ -46,7 +46,7 @@ public class TrackController {
             return "tracks/add-track";
         }
         track.setId(trackService.createRandomId());
-        trackService.addTask(track);
+        trackService.addTrack(track);
         return "redirect:/tracks";
     }
 
@@ -60,5 +60,11 @@ public class TrackController {
         }
         model.addAttribute("track", track);
         return "tracks/checkpoints";
+    }
+
+    @GetMapping("tracks/delete/{trackId}")
+    public String deleteTrack(@PathVariable long trackId) {
+        trackService.removeTrackById(trackId);
+        return "redirect:/tracks";
     }
 }

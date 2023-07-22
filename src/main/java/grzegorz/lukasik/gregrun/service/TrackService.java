@@ -16,7 +16,7 @@ public class TrackService{
         return tracks;
     }
 
-    public void addTask(Track trackToAdd) {
+    public void addTrack(Track trackToAdd) {
         tracks.add(trackToAdd);
     }
 
@@ -28,6 +28,12 @@ public class TrackService{
     }
     public long createRandomId() {
         return new Random().nextLong(1000);
+    }
+
+    public void removeTrackById(long trackId) {
+        List<Track> allTracks = getAll();
+        Track trackToDelete = findTrackById(trackId);
+        allTracks.remove(trackToDelete);
     }
 }
 
