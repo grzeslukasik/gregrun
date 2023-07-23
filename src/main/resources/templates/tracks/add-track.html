@@ -46,30 +46,26 @@
             <input type="date" class="form-control" id="trackDateDate" th:field="*{trackDate}"/>
         </div>
 
-        <div id="checkpointsContainer">
-            <div class="checkpoint">
-                <label for="longitude">Start longitude:</label>
-                <input type="text" name="checkpointsList[0].longitude" required>
-                <br>
-                <label for="latitude">Start latitude:</label>
-                <input type="text" name="checkpointsList[0].latitude" required>
-
-                <label for="longitude">Checkpoint 1 longitude:</label>
-                <input type="text" name="checkpointsList[1].longitude" required>
-                <br>
-                <label for="latitude">Checkpoint 1 longitude:</label>
-                <input type="text" name="checkpointsList[1].latitude" required>
-
-            </div>
-        </div>
 
 
-
-        <div>
-            <button class="btn btn-outline-success" type="button" onclick="addCheckpoint()">Add checkpoint</button>
-        </div>
         <div id="map" class="container"></div>
 
+        <div>
+            <table id="data-table" class="table">
+                <thead>
+                <tr>
+                    <th class="col-4">Szerokość</th>
+                    <th class="col-4">Długość</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="checkpoint, iterStat: ${track.checkpointsList}">
+                    <td th:value="${checkpoint.latitude}" ></td>
+                    <td th:value="${checkpoint.longitude}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <div>
             <button class="btn btn-dark" type="submit">Add track</button>
         </div>
@@ -84,63 +80,58 @@
 </div>
 
 <script th:inline="javascript">
-    let checkpointIndex = 2;
 
-    function addCheckpoint() {
-        const checkpointsContainer = document.getElementById("checkpointsContainer");
+    function updateDataTable(map) {
+        let dataTableBody = $('#data-table tbody')
+        dataTableBody.html('')
+        let checkPointNumber = -1;
+        map.eachLayer(layer => {
+            let popup = layer.getPopup()
+            if (popup) {
+                let text = $(popup.getContent()).find('.popup-span').text()
+                let latLng = layer.getLatLng()
 
-        const checkpointDiv = document.createElement("div");
-        checkpointDiv.classList.add("checkpoint");
+                dataTableBody.append(
+                    $('<tr></tr>').append(
+                        $('<td></td>').text(latLng.lat),
+                        $('<td></td>').text(latLng.lng),
+                        $('<input/>').attr({
+                            type: 'hidden',
+                            name: 'checkpointsList[' + checkPointNumber + '].latitude',
+                            value: latLng.lat
+                        }),
+                        $('<input/>').attr({
+                            type: 'hidden',
+                            name: 'checkpointsList[' + checkPointNumber + '].longitude',
+                            value: latLng.lng
+                        }),
+                        $('<td></td>').text(text + checkPointNumber),
 
-        const longitudeLabel = document.createElement("label");
-        longitudeLabel.setAttribute("for", "longitude");
-        longitudeLabel.textContent = "Checkpoint " + checkpointIndex + " longitude:";
-
-        const longitudeInput = document.createElement("input");
-        longitudeInput.setAttribute("type", "text");
-        longitudeInput.setAttribute("name", "checkpointsList[" + checkpointIndex + "].longitude");
-        longitudeInput.setAttribute("required", true);
-
-
-        const latitudeLabel = document.createElement("label");
-        latitudeLabel.setAttribute("for", "latitude");
-        latitudeLabel.textContent = "Checkpoint " + checkpointIndex + " latitude:";
-
-        const latitudeInput = document.createElement("input");
-        latitudeInput.setAttribute("type", "text");
-        latitudeInput.setAttribute("name", "checkpointsList[" + checkpointIndex + "].latitude");
-        latitudeInput.setAttribute("required", true);
-
-        checkpointDiv.appendChild(longitudeLabel);
-        checkpointDiv.appendChild(longitudeInput);
-
-        checkpointDiv.appendChild(document.createElement("br"));
-
-        checkpointDiv.appendChild(latitudeLabel);
-        checkpointDiv.appendChild(latitudeInput);
-
-        checkpointsContainer.appendChild(checkpointDiv);
-
-        checkpointIndex++;
+                    )
+                )
+            }
+            checkPointNumber++;
+        })
     }
-</script>
 
-<script>
-    function createPopupContents(marker, latlng) {
+    function createPopupContents(marker) {
         let popupContents = $('<div></div>')
         popupContents.append(
-            $('<span></span>').addClass('popup-span').text('Longitude: ' + latlng.lng)
+            $('<span></span>').addClass('popup-span').text('Checkpoint ')
         )
-        popupContents.append('<br>');
-        popupContents.append(
-            $('<span></span>').addClass('popup-span').text('Latitude: ' + latlng.lat)
-        )
-        popupContents.append('<br>');
 
+
+        let trashButton = $('<button><i class="fas fa-trash" />Usuń</button>')
+            .on('click', event => {
+                marker.remove()
+                updateDataTable(map)
+            })
+
+        popupContents.append(trashButton)
         return popupContents[0]
     }
 
-    var options = {center: [54.349, 18.651], zoom: 12}
+    var options = {center: [54.349, 18.651],zoom: 12}
     var map = L.map('map', options);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -161,9 +152,12 @@
     map.on('click', mapEvent => {
         if (!popupOpen) {
             let marker = L.marker(mapEvent.latlng)
-            marker.addTo(map).bindPopup(createPopupContents(marker, mapEvent.latlng));
+            marker.addTo(map).bindPopup(createPopupContents(marker));
+            updateDataTable(map)
         }
     })
+    updateDataTable(map)
+
 </script>
 <footer th:insert="fragments/footer" :: footer></footer>
 </body>
