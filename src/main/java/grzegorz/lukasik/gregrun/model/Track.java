@@ -23,14 +23,14 @@ public class Track {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotEmpty
-    @Column(name = "track_name", nullable = false)
+    @Column
     private String trackName;
     @Column
     private String trackDescription;
-    @NotNull(message = "Date cannot be empty")
-    @FutureOrPresent(message = "Task date is incorrect")
+//    @NotNull(message = "Date cannot be empty")
+//    @FutureOrPresent(message = "Task date is incorrect")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Column(name = "track_date", nullable = false)
+    @Column(name = "track_date")
     private LocalDate trackDate;
     @OneToMany(mappedBy = "track")
     private List<Checkpoints> checkpointsList;
