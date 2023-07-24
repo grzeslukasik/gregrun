@@ -2,6 +2,7 @@ package grzegorz.lukasik.gregrun.controller;
 
 import grzegorz.lukasik.gregrun.model.Track;
 import grzegorz.lukasik.gregrun.service.TrackService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,9 +18,9 @@ import java.util.List;
 @Controller
 public class TrackController {
 
-    private List<Track> trackList = new ArrayList<>();
     private final TrackService trackService;
 
+    @Autowired
     public TrackController(TrackService trackService) {
         this.trackService = trackService;
     }
@@ -29,13 +30,13 @@ public class TrackController {
         Track emptyTrack = new Track();
         model.addAttribute("track", emptyTrack);
 
-        List<Track> tracks = trackService.getAll();
+        List<Track> tracks = trackService.getAllTracks();
         model.addAttribute("tracks", tracks);
         return "tracks/track";
     }
 
     @GetMapping("/tracks/create")
-    public String schowCreateForm(Model model){
+    public String showCreateForm(Model model){
         model.addAttribute("track", new Track());
         return "tracks/add-track";
     }
