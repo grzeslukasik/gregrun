@@ -48,21 +48,20 @@
 
         <div id="checkpointsContainer">
             <div class="checkpoint">
-                <label for="longitude">Start longitude:</label>
-                <input type="text" name="checkpointsList[0].longitude" required>
-                <br>
-                <label for="latitude">Start latitude:</label>
-                <input type="text" name="checkpointsList[0].latitude" required>
+<!--                <label for="longitude">Start longitude:</label>-->
+<!--                <input type="text" name="checkpointsList[0].longitude" required>-->
+<!--                <br>-->
+<!--                <label for="latitude">Start latitude:</label>-->
+<!--                <input type="text" name="checkpointsList[0].latitude" required>-->
 
-                <label for="longitude">Checkpoint 1 longitude:</label>
-                <input type="text" name="checkpointsList[1].longitude" required>
-                <br>
-                <label for="latitude">Checkpoint 1 longitude:</label>
-                <input type="text" name="checkpointsList[1].latitude" required>
+<!--                <label for="longitude">Checkpoint 1 longitude:</label>-->
+<!--                <input type="text" name="checkpointsList[1].longitude" required>-->
+<!--                <br>-->
+<!--                <label for="latitude">Checkpoint 1 longitude:</label>-->
+<!--                <input type="text" name="checkpointsList[1].latitude" required>-->
 
             </div>
         </div>
-
 
 
         <div>
@@ -84,7 +83,7 @@
 </div>
 
 <script th:inline="javascript">
-    let checkpointIndex = 2;
+    let checkpointIndex = 0;
 
     function addCheckpoint() {
         const checkpointsContainer = document.getElementById("checkpointsContainer");

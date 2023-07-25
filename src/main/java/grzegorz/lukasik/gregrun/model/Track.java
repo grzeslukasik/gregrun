@@ -11,6 +11,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -27,11 +28,11 @@ public class Track {
     private String trackName;
     @Column
     private String trackDescription;
-//    @NotNull(message = "Date cannot be empty")
-//    @FutureOrPresent(message = "Task date is incorrect")
+    @NotNull(message = "Date cannot be empty")
+    @FutureOrPresent(message = "Task date is incorrect")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "track_date")
     private LocalDate trackDate;
     @OneToMany(mappedBy = "track")
-    private List<Checkpoints> checkpointsList;
+    private List<Checkpoints> checkpointsList = new ArrayList<>();
 }
