@@ -29,7 +29,7 @@
 <body>
 <h5>Checkpoints for track: <span th:text="${track.trackName}"></span></h5>
 <ul>
-    <li th:each="checkpoint : ${track.checkpointsList}">
+    <li th:each="checkpoint : ${track.getCheckpointList}">
         <strong>Longitude:</strong> <span th:text="${checkpoint.longitude}"></span><br>
         <strong>Latitude:</strong> <span th:text="${checkpoint.latitude}"></span><br><br>
     </li>
@@ -50,7 +50,7 @@
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
 
-    var points = [[${track.checkpointsList}]];
+    var points = [[${track.checkpointList}]];
     var latLngs = [];
     points.forEach(point => {
         var latitude = point.latitude;

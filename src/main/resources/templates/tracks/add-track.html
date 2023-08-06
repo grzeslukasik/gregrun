@@ -59,7 +59,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="checkpoint, iterStat: ${track.checkpointsList}">
+                <tr th:each="checkpoint, iterStat: ${track.getCheckpointList}">
                     <td th:value="${checkpoint.latitude}" ></td>
                     <td th:value="${checkpoint.longitude}"></td>
                 </tr>

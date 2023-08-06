@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-public class Checkpoints {
+public class Checkpoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

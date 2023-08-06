@@ -33,5 +33,5 @@ public class Track {
     @Column
     private LocalDate trackDate;
     @OneToMany(mappedBy = "track")
-    private List<Checkpoints> checkpointsList;
+    private List<Checkpoint> checkpointList;
 }
